@@ -1,6 +1,9 @@
 package uuid62
 
 import (
+	"errors"
+	"time"
+
 	"github.com/eknkc/basex"
 	"github.com/gofrs/uuid"
 )
@@ -27,6 +30,38 @@ func V4() (string, error) {
 	return Encode(uuid), nil
 }
 
+func V6() (string, error) {
+	uuid, err := uuid.NewV6()
+	if err != nil {
+		return "", err
+	}
+	return Encode(uuid), nil
+}
+
+func V7Nano() (string, error) {
+	uuid, err := uuid.NewV7(uuid.NanosecondPrecision)
+	if err != nil {
+		return "", err
+	}
+	return Encode(uuid), nil
+}
+
+func V7Micro() (string, error) {
+	uuid, err := uuid.NewV7(uuid.MicrosecondPrecision)
+	if err != nil {
+		return "", err
+	}
+	return Encode(uuid), nil
+}
+
+func V7Milli() (string, error) {
+	uuid, err := uuid.NewV7(uuid.MillisecondPrecision)
+	if err != nil {
+		return "", err
+	}
+	return Encode(uuid), nil
+}
+
 func Decode(uuid62 string) (uuid.UUID, error) {
 	rawBytes, err := base62.Decode(uuid62)
 	if err != nil {
@@ -37,4 +72,24 @@ func Decode(uuid62 string) (uuid.UUID, error) {
 
 func Encode(uuid uuid.UUID) string {
 	return base62.Encode(uuid.Bytes())
+}
+
+func Timestamp(uuid62 string) (time.Time, error) {
+	uuidObj, err := Decode(uuid62)
+	if err != nil {
+		return time.Time{}, nil
+	}
+	var ts uuid.Timestamp
+	switch uuidObj.Version() {
+	case uuid.V1:
+		ts, err = uuid.TimestampFromV1(uuidObj)
+	case uuid.V6:
+		ts, err = uuid.TimestampFromV6(uuidObj)
+	default:
+		return time.Time{}, errors.New("timestamp is available only V1 and V6")
+	}
+	if err != nil {
+		return time.Time{}, err
+	}
+	return ts.Time()
 }
