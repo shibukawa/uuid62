@@ -79,123 +79,86 @@ func TestV6(t *testing.T) {
 	properties := gopter.NewProperties(nil)
 
 	properties.Property("V6", prop.ForAll(func() string {
-		str, err := V6()
+		str1, err := V6()
 		if err != nil {
 			return "err should be nil (V6)"
 		}
-		if len(str) != 22 && len(str) != 21 {
-			return fmt.Sprintf("length should be 21 or 22, but %d", len(str))
+		str2, err := V6()
+		if err != nil {
+			return "err should be nil (V6)"
 		}
-		uuidValue, err := Decode(str)
+
+		uuid1, err := Decode(str1)
 		if err != nil {
 			return "err should be nil (Decode)"
 		}
-		if len(uuidValue.Bytes()) != 16 {
+		uuid2, err := Decode(str2)
+		if err != nil {
+			return "err should be nil (Decode)"
+		}
+
+		if (str1 < str2) != (uuid1.String() < uuid2.String()) {
+			return "uuid62's string and original uuid should have same order"
+		}
+
+		if len(str1) != 22 && len(str1) != 21 {
+			return fmt.Sprintf("length should be 21 or 22, but %d", len(str1))
+		}
+		if len(uuid1.Bytes()) != 16 {
 			return "uuid is invalid"
 		}
-		if uuidValue.Version() != uuid.V6 {
+		if uuid1.Version() != uuid.V6 {
 			return "uuid version is invalid"
 		}
-		ts, err := Timestamp(str)
+
+		ts, err := Timestamp(str1)
 		if ts.IsZero() {
 			return "V6 should support timestap"
 		}
 		if err != nil {
 			return "V6 should support timestap"
 		}
+
 		return ""
 	}))
 	properties.TestingRun(t)
 }
 
-func TestV7Nano(t *testing.T) {
+func TestV7(t *testing.T) {
 	properties := gopter.NewProperties(nil)
 
-	properties.Property("V7Nano", prop.ForAll(func() string {
-		str, err := V7Nano()
-		if err != nil {
-			return "err should be nil (V6)"
-		}
-		if len(str) != 22 && len(str) != 21 {
-			return fmt.Sprintf("length should be 21 or 22, but %d", len(str))
-		}
-		uuidValue, err := Decode(str)
-		if err != nil {
-			return "err should be nil (Decode)"
-		}
-		if len(uuidValue.Bytes()) != 16 {
-			return "uuid is invalid"
-		}
-		if uuidValue.Version() != uuid.V7 {
-			return "uuid version is invalid"
-		}
-		ts, err := Timestamp(str)
-		if !ts.IsZero() {
-			return "V7 can't support timestap"
-		}
-		if err == nil {
-			return "V7 can't support timestap"
-		}
-		return ""
-	}))
-	properties.TestingRun(t)
-}
-
-func TestV7Micro(t *testing.T) {
-	properties := gopter.NewProperties(nil)
-
-	properties.Property("V7Micro", prop.ForAll(func() string {
-		str, err := V7Micro()
+	properties.Property("V7", prop.ForAll(func() string {
+		str1, err := V7()
 		if err != nil {
 			return "err should be nil (V7)"
 		}
-		if len(str) != 22 && len(str) != 21 {
-			return fmt.Sprintf("length should be 21 or 22, but %d", len(str))
+		str2, err := V7()
+		if err != nil {
+			return "err should be nil (V7)"
 		}
-		uuidValue, err := Decode(str)
+		if len(str1) != 22 && len(str1) != 21 {
+			return fmt.Sprintf("length should be 21 or 22, but %d", len(str1))
+		}
+
+		uuid1, err := Decode(str1)
 		if err != nil {
 			return "err should be nil (Decode)"
 		}
-		if len(uuidValue.Bytes()) != 16 {
-			return "uuid is invalid"
-		}
-		if uuidValue.Version() != uuid.V7 {
-			return "uuid version is invalid"
-		}
-		ts, err := Timestamp(str)
-		if !ts.IsZero() {
-			return "V7 can't support timestap"
-		}
-		if err == nil {
-			return "V7 can't support timestap"
-		}
-		return ""
-	}))
-	properties.TestingRun(t)
-}
-
-func TestV7Milli(t *testing.T) {
-	properties := gopter.NewProperties(nil)
-
-	properties.Property("V7Milli", prop.ForAll(func() string {
-		str, err := V7Milli()
-		if err != nil {
-			return "err should be nil (V7Milli)"
-		}
-		if len(str) != 22 && len(str) != 21 {
-			return fmt.Sprintf("length should be 21 or 22, but %d", len(str))
-		}
-		uuidValue, err := Decode(str)
+		uuid2, err := Decode(str2)
 		if err != nil {
 			return "err should be nil (Decode)"
 		}
-		if len(uuidValue.Bytes()) != 16 {
+		if (str1 < str2) != (uuid1.String() < uuid2.String()) {
+			return "uuid62's string and original uuid should have same order"
+		}
+
+		if len(uuid1.Bytes()) != 16 {
 			return "uuid is invalid"
 		}
-		if uuidValue.Version() != uuid.V7 {
+		if uuid1.Version() != uuid.V7 {
 			return "uuid version is invalid"
 		}
-		ts, err := Timestamp(str)
+		ts, err := Timestamp(str1)
 		if !ts.IsZero() {
 			return "V7 can't support timestap"
 		}

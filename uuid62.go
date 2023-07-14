@@ -5,13 +5,13 @@ import (
 	"time"
 
 	"github.com/eknkc/basex"
-	"github.com/gofrs/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 var base62 *basex.Encoding
 
 func init() {
-	base62, _ = basex.NewEncoding("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	base62, _ = basex.NewEncoding("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
 }
 
 func V1() (string, error) {
@@ -38,24 +38,8 @@ func V6() (string, error) {
 	return Encode(uuid), nil
 }
 
-func V7Nano() (string, error) {
-	uuid, err := uuid.NewV7(uuid.NanosecondPrecision)
-	if err != nil {
-		return "", err
-	}
-	return Encode(uuid), nil
-}
-
-func V7Micro() (string, error) {
-	uuid, err := uuid.NewV7(uuid.MicrosecondPrecision)
-	if err != nil {
-		return "", err
-	}
-	return Encode(uuid), nil
-}
-
-func V7Milli() (string, error) {
-	uuid, err := uuid.NewV7(uuid.MillisecondPrecision)
+func V7() (string, error) {
+	uuid, err := uuid.NewV7()
 	if err != nil {
 		return "", err
 	}

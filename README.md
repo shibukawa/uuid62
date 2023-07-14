@@ -41,9 +41,7 @@ func main() {
 - `func uuid62.V1() (string, error)`
 - `func uuid62.V4() (string, error)`
 - `func uuid62.V6() (string, error)`
-- `func uuid62.V7Nano() (string, error)`
-- `func uuid62.V7Micro() (string, error)`
-- `func uuid62.V7Milli() (string, error)`
+- `func uuid62.V7() (string, error)`
 
 They generates UUID string in base62 format.
 
@@ -60,6 +58,14 @@ Convert `github.com/gofrs/uuid`'s UUID object to string.
 - `func uuid62.Timestamp(uuidString string) (time.Time, error)`
 
 Get timestamp from uuid string. It accepts only V1 and V6.
+
+## Change History
+
+### v1 -> v2
+
+``uuid62.V7Nano`` and ``uuid62.V7Micro`` and ``uuid62.V7Milli`` and removed and introduced ``uuid62.V7`` because the latest uuid draft removes precision option from V7.
+
+Change base62 encode character order. Now resulting strings have also same order with original UUID. So the resulting string is also k-sortable.
 
 ## License
 
