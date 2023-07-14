@@ -1,6 +1,6 @@
 # uuid62
 
-[![GoDoc](http://godoc.org/github.com/shibukawa/uuid62?status.svg)](http://godoc.org/github.com/shibukawa/uuid62)
+[![GoDoc](http://godoc.org/github.com/shibukawa/uuid62/v2?status.svg)](http://godoc.org/github.com/shibukawa/uuid62/v2)
 
 Go implementation of short ID generator by using UUIDv1, V4, V6, V7 and base62 inspired by [npm uuid62 package](https://www.npmjs.com/package/uuid62).
 
@@ -12,7 +12,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/shibukawa/uuid62"
+	"github.com/shibukawa/uuid62/v2"
 )
 
 func main() {
@@ -29,8 +29,6 @@ func main() {
 	}
 	idStringAgain := Encode(uuid) // idStringAgain == idString
 	fmt.Println(idStringAgain)
-
-	ts, err :=
 }
 ```
 
