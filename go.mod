@@ -1,4 +1,4 @@
-module github.com/shibukawa/uuid62
+module github.com/shibukawa/uuid62/v2
 
 go 1.20
 
