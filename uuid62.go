@@ -38,6 +38,15 @@ func V6() (string, error) {
 	return Encode(uuid), nil
 }
 
+func V6WithTimeStamp() (string, uint64, error) {
+	v6uuid, err := uuid.NewV6()
+	if err != nil {
+		return "", 0, err
+	}
+	ts, _ := uuid.TimestampFromV6(v6uuid)
+	return Encode(v6uuid), uint64(ts), nil
+}
+
 func V7() (string, error) {
 	uuid, err := uuid.NewV7()
 	if err != nil {
